@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Music, Artist, Comment
-from .serializers import MusicSerializer, ArtistSerializer, ArtistDetailSerializer, CommentSerializer
+from .serializers import MusicSerializer, ArtistSerializer, ArtistDetailSerializer, CommentSerializer, MusicDetailSerializer
 
 # Create your views here.
 
@@ -25,7 +25,7 @@ def music_list(request):
 @api_view(['GET'])
 def music_detail(request, music_pk):
     music = get_object_or_404(Music, pk=music_pk)
-    serializer = MusicSerializer(music)         #하나만 넘어올땐 many=True 안씀
+    serializer = MusicDetailSerializer(music)         #하나만 넘어올땐 many=True 안씀
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -46,5 +46,6 @@ def comment_create(request, music_pk):
     if serializer.is_valid(raise_exception=True):
         serializer.save(music_id=music_pk)
         return Response(serializer.data)
-    
+        
+
     
